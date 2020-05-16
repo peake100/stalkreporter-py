@@ -60,3 +60,8 @@ doc:
 	python setup.py build_sphinx -E
 	sleep 1
 	open ./zdocs/build/html/index.html
+
+.PHONY: proto
+proto:
+	python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. ./stalk-proto/*.proto ./stalk-proto/google/api/*.proto
+
