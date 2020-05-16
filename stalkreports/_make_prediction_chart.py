@@ -1,5 +1,6 @@
 import itertools
 import numpy as np
+import random
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
 from gen import proto
@@ -33,8 +34,9 @@ BACKGROUND_COLOR = color(63, 63, 63)
 LABEL_COLOR = color(230, 193, 90)
 PRICE_BAR_COLOR = (47, 250, 66)
 PRICE_GRID_COLOR = color(74, 109, 77)
-BIG_SPIKE_COLOR = color(255, 47, 66)
-SMALL_SPIKE_COLOR = color(66, 47, 255)
+
+BIG_SPIKE_COLOR = color(35, 130, 188)
+SMALL_SPIKE_COLOR = color(255, 105, 97)
 
 
 def bar_color(chance: float) -> List[float]:
@@ -102,35 +104,84 @@ def create_spike_line(
     spike_pattern: proto.PotentialPattern,
     spike_color: List[float],
 ) -> None:
-    period_highs: List[Optional[int]] = [None for _ in range(PRICE_PERIOD_COUNT)]
+    # we need to include a phantom price period to get the line to draw to the edge of
+    # the final graph
+
+    period_highs: List[Optional[float]] = [None for _ in range(PRICE_PERIOD_COUNT + 1)]
+    spike_progression: List[bool] = [False for _ in range(PRICE_PERIOD_COUNT)]
+
     # get highest possible price for each period
     for week in spike_pattern.potential_weeks:
         for period, prices in enumerate(week.prices):
+            if not prices.is_spike:
+                continue
+
+            spike_progression[period] = True
+
             high_price = period_highs[period]
-            if (high_price is None or prices.max > high_price) and prices.is_spike:
+
+            if high_price is None or prices.max > high_price:
                 period_highs[period] = prices.max
+                if period == 11:
+                    period_highs[period + 1] = prices.max
+
+    price_periods: List[float] = PRICE_PERIODS.copy()
+    price_periods.append(11.5)
 
     price_plot.step(
-        PRICE_PERIODS,
+        price_periods,
         period_highs,
         where="mid",
         linestyle="--",
         linewidth=4,
         dash_capstyle="projecting",
+        color=spike_color,
+        alpha=round(spike_pattern.chance, 2)
     )
 
-    for period, price, chance in zip(PRICE_PERIODS, period_highs, spike_breakdown):
-        if price is None:
+    first_period = -1
+    annotation_values = zip(
+        PRICE_PERIODS, period_highs, spike_breakdown[12:], spike_progression
+    )
+    for period, price, chance, is_spike in annotation_values:
+        if not is_spike:
             continue
+
+        if first_period == -1:
+            first_period = period
+
         chance = round(chance * 100, 2)
+
+        y_distance = -10
 
         plt.annotate(
             f"{chance}%",  # this is the text
             (period, price),  # this is the point to label
             textcoords="offset points",  # how to position the text
-            xytext=(0, 0),  # distance from text to points (x,y)
-            ha='center'
+            xytext=(0, y_distance),  # distance from text to points (x,y)
+            ha='center',
+            va='top',
+            fontsize=LABEL_SIZE * .75,
+            color=spike_color,
         )
+
+    first_period_price = period_highs[first_period]
+    plt.annotate(
+        f"{round(spike_pattern.chance * 100, 2)}%",  # this is the text
+        (first_period - 0.5 - 0.1, first_period_price),  # this is the point to label
+        ha='right',
+        va='center',
+        fontsize=LABEL_SIZE,
+        color="white",
+        alpha=0.75,
+        bbox={
+            "boxstyle": "Circle,pad=0.4",
+            "facecolor": spike_color,
+            "edgecolor": None,
+            "linewidth": 0,
+            "alpha": round(spike_pattern.chance, 2)
+        }
+    )
 
 
 def create_prediction_chart(forecast: proto.Forecast) -> None:
@@ -138,21 +189,17 @@ def create_prediction_chart(forecast: proto.Forecast) -> None:
 
     grid = gridspec.GridSpec(
         ncols=1,
-        nrows=3,
+        nrows=1,
         figure=fig,
-        height_ratios=[16, 1, 1],
-        hspace=0.0
     )
 
     plot_prices = fig.add_subplot(grid[0])
-    plot_big_spike = fig.add_subplot(grid[1])
-    plot_small_spike = fig.add_subplot(grid[2])
 
     fig.set_facecolor(BACKGROUND_COLOR)
     fig.set_edgecolor(BACKGROUND_COLOR)
 
     # set bg color for all graphs
-    for plot in (plot_prices, plot_big_spike, plot_small_spike):
+    for plot in [plot_prices]:
         plot.set_facecolor(BACKGROUND_COLOR)
         # Remove all spines
         for spine in plot.spines.values():
@@ -168,7 +215,6 @@ def create_prediction_chart(forecast: proto.Forecast) -> None:
         for week in pattern.potential_weeks:
             create_price_bars(plot_prices, week)
 
-    create_spike_bar(plot_big_spike, forecast.spikes.big.breakdown, BIG_SPIKE_COLOR)
     create_spike_line(
         plot_prices,
         spike_breakdown=forecast.spikes.big.breakdown,
@@ -176,9 +222,6 @@ def create_prediction_chart(forecast: proto.Forecast) -> None:
         spike_color=BIG_SPIKE_COLOR,
     )
 
-    create_spike_bar(
-        plot_small_spike, forecast.spikes.small.breakdown, SMALL_SPIKE_COLOR
-    )
     create_spike_line(
         plot_prices,
         spike_breakdown=forecast.spikes.small.breakdown,
@@ -186,14 +229,14 @@ def create_prediction_chart(forecast: proto.Forecast) -> None:
         spike_color=SMALL_SPIKE_COLOR,
     )
 
-    bottom_axis = plot_small_spike.axes
+    bottom_axis = plot_prices.axes
     # the x locations for the bars
     indTods = np.arange(PRICE_PERIOD_COUNT)
     # Add the time of day labels for each bar
     bottom_axis.axes.set_xlim(plot_prices.get_xlim())
     bottom_axis.axes.set_xticks(indTods)
     bottom_axis.axes.set_xticklabels(PRICE_TODS)
-    bottom_axis.spines["bottom"].set_position(("axes", -0.2))
+    bottom_axis.spines["bottom"].set_position(("axes", -0.01))
 
     # Create weekday labels
     weekday_labels = bottom_axis.twiny()
@@ -204,11 +247,11 @@ def create_prediction_chart(forecast: proto.Forecast) -> None:
     # Set the labels
     weekday_labels.set_xticklabels(PRICE_DAYS)
     # Move the weekday labels down a littls
-    weekday_labels.spines["bottom"].set_position(("axes", -0.9))
+    weekday_labels.spines["bottom"].set_position(("axes", -0.06))
 
     # style price axes
     plot_prices.tick_params(
-        axis='both',
+        axis='y',
         labelcolor=LABEL_COLOR,
         labelsize=LABEL_SIZE,
         labeltop=False,
@@ -220,22 +263,9 @@ def create_prediction_chart(forecast: proto.Forecast) -> None:
         left=False,
     )
 
-    # remove big spike axes
-    plot_big_spike.tick_params(
-        axis='both',
-        labeltop=False,
-        labelbottom=False,
-        labelright=False,
-        labelleft=False,
-        bottom=False,
-        top=False,
-        left=False,
-        right=False,
-    )
-
     # style TOD labels
     bottom_axis.tick_params(
-        axis='both',
+        axis='x',
         labelcolor=LABEL_COLOR,
         labelsize=LABEL_SIZE,
         labeltop=False,
