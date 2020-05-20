@@ -8,18 +8,14 @@ results from [stalkforecaster](https://github.com/peake100/stalkforecaster-go)
 
 ## Installation
 
-``pip install islelib``
+Stalkreporter can be found on [dockerhub](https://hub.docker.com/repository/docker/bpeake89/stalkreporter).
 
 ## Getting Started
-For full documentation:
+For documentation and API guide:
+[read the docs](https://peake100.github.io/stalkreporter-py/).
+
+For library development guide: 
 [read the docs](https://illuscio-dev.github.io/islelib-py/).
-
-For library development guide, 
-[read the docs](https://illuscio-dev.github.io/islelib-py/).
-
-### Prerequisites
-
-Python 3.6+
 
 ## Authors
 
