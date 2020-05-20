@@ -1,6 +1,6 @@
 import asyncio
 import pytest
-from stalkreports.server import serve
+from stalkreporter.server import serve
 
 
 @pytest.fixture(scope="class")

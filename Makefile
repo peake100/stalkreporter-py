@@ -66,3 +66,9 @@ proto:
 	python3 -m grpc_tools.protoc -I. --python_out=./gen --python_grpc_out=./gen ./stalk_proto/*.proto ./stalk_proto/google/api/*.proto
 	python3 ./zdevelop/make_scripts/make_proto.py
 	make format
+
+.PHONY: image-dev
+image-dev:
+	DOCKER_BUILDKIT=1 docker build \
+	--no-cache \
+	-t bpeake89/stalkreporter:dev .

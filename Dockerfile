@@ -51,7 +51,7 @@ RUN pip install --no-cache-dir .
 # SERVICE IMAGE ##########################
 # We are done installing and building the app, now we need to make the actual service
 # container.
-FROM illusciomicroservices.azurecr.io/spanserver-base-python AS service
+FROM python:3.8-slim AS service
 
 # Copy our virtual environment from the previous build.
 COPY --from=builder /opt/venv /opt/venv
