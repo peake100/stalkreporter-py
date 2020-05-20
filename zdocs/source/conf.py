@@ -15,10 +15,10 @@ if not __version__:
 proc = subprocess.Popen(
     [
         "protoc",
-        f"--doc_out=./zdocs/source/_static",
+        "--doc_out=./zdocs/source/_static",
         "--doc_opt=html,proto.html",
-        f"./stalk_proto/reporter.proto",
-        f"./stalk_proto/models.proto",
+        "./stalk_proto/reporter.proto",
+        "./stalk_proto/models.proto",
     ],
     cwd=str(root_dir),
 )
