@@ -37,7 +37,7 @@ class Resources:
         self.render_pool.shutdown(wait=True)
 
 
-def run_forecast(proto_serialized: bytes) -> bytes:
+def run_forecast(proto_serialized: bytes, debug: bool) -> bytes:
     """
     The generated proto classes are not pickle-able so we need to send them to the
     process pool as raw proto messages and deserialize them there. This function is
@@ -47,15 +47,16 @@ def run_forecast(proto_serialized: bytes) -> bytes:
     req = models_reporter.ForecastChartReq.FromString(proto_serialized,)
 
     svg_buffer = create_forecast_chart(
-        ticker=req.ticker, forecast=req.forecast, image_format=req.format,
+        ticker=req.ticker, forecast=req.forecast, image_format=req.format, debug=debug
     )
     return svg_buffer.read()
 
 
 class StalkReporter(StalkReporterBase):
-    def __init__(self, resources: Resources):
+    def __init__(self, resources: Resources, debug: bool):
         self.resources: Resources = resources
-        self.loop = asyncio.get_event_loop()
+        self.debug: bool = debug
+        self.loop: asyncio.AbstractEventLoop = asyncio.get_event_loop()
         super().__init__()
 
     async def ForecastChart(
@@ -64,7 +65,10 @@ class StalkReporter(StalkReporterBase):
         req = await stream.recv_message()
         assert req is not None
         image_bytes = await self.loop.run_in_executor(
-            self.resources.render_pool, run_forecast, req.SerializeToString(),
+            self.resources.render_pool,
+            run_forecast,
+            req.SerializeToString(),
+            self.debug
         )
 
         resp = ChartResp(chart=image_bytes)
@@ -85,12 +89,13 @@ def configure_logger() -> logging.Logger:
 async def serve() -> None:
     host = os.environ.get("GRPC_HOST", "0.0.0.0")
     port = int(os.environ.get("GRPC_PORT", "50051"))
+    debug = os.environ.get("DEBUG").upper() == "TRUE"
 
     log = configure_logger()
 
     log.info("creating resources")
     resources = Resources()
-    service = server.Server([StalkReporter(resources)])
+    service = server.Server([StalkReporter(resources, debug)])
 
     log.info("starting up service")
     with utils.graceful_exit([service]):
