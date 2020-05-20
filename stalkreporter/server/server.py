@@ -68,7 +68,7 @@ class StalkReporter(StalkReporterBase):
             self.resources.render_pool,
             run_forecast,
             req.SerializeToString(),
-            self.debug
+            self.debug,
         )
 
         resp = ChartResp(chart=image_bytes)
@@ -89,7 +89,7 @@ def configure_logger() -> logging.Logger:
 async def serve() -> None:
     host = os.environ.get("GRPC_HOST", "0.0.0.0")
     port = int(os.environ.get("GRPC_PORT", "50051"))
-    debug = os.environ.get("DEBUG").upper() == "TRUE"
+    debug = os.environ.get("DEBUG", "FALSE").upper() == "TRUE"
 
     log = configure_logger()
 
