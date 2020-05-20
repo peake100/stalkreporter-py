@@ -14,7 +14,7 @@ develop-eggs/
 .pytest_cache
 
 # library scratch
-.coverage
+.coverage*
 zdevelop/tests/_reports/
 zdevelop/tests/htmlcov/
 zdevelop/scratch/*

@@ -1,0 +1,137 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "github.com/peake100/stalkforecaster-go/proto";
+
+// Enum of the price patterns that can occur in animal crossing.
+enum PricePatterns {
+    FLUCTUATING = 0;
+    BIGSPIKE = 1;
+    DECREASING = 2;
+    SMALLSPIKE = 3 ;
+    UNKNOWN = 4;
+}
+
+// Island price data sent when requesting a prediction
+message Ticker {
+  // The purchase price of the turnips on sunday.
+  int32 purchase_price = 1;
+
+  // The pattern of the previous week's prices for this island.
+  PricePatterns previous_pattern = 2;
+
+  // The known nook prices for bells. This is expected to be a 12-value array with
+  // a price of '0' standing in for "unknown". If this field contains less than
+  // 12 values, it is assumed the remaining values are 0. The server will reject a
+  // ticker with less than 12 values
+  repeated int32 prices = 3;
+
+  // The current price period on the target island.
+  int32 current_period = 4;
+}
+
+// Price info for a single price period.
+message PricePeriod {
+  // The minimum price that might occur during this period.
+  int32 min = 1;
+  // The maximum price that might occur during this period.
+  int32 max = 2;
+  bool is_spike = 3;
+}
+
+// Price info for a series of prices.
+message PricesSummary {
+  // The absolute minimum price of the parent object.
+  int32 min = 1;
+  // The potential maximum price of the parent object.
+  int32 max = 2;
+  // The maximum guaranteed price for the parent. This is the minimum highest price
+  // we can say will happen with 100% certainty.
+  int32 guaranteed = 6;
+  // The price periods during which ``min`` might occur.
+  repeated int32 min_periods = 3;
+  // The price periods during which ``max`` might occur.
+  repeated int32 max_periods = 4;
+  // The price periods during which ``guaranteed`` might occur.
+  repeated int32 guaranteed_periods = 5;
+}
+
+// Spike info for weeks, weeks and patterns.
+message SpikeRange {
+  // Whether the parent has this type of spike.
+  bool has = 1;
+  // The price period (0-11) the spike starts on.
+  int32 start = 2;
+  // The price period (0-11) the spike ends on.
+  int32 end = 3;
+}
+
+// Describes a potential price fluctuation for a week of a given price pattern.
+message PotentialWeek {
+  // The chance this price fluctuation will occur.
+  double chance = 1;
+  // Price information for each price period. Will always have 12 items.
+  repeated PricePeriod prices = 3;
+  // A summary of the prices in this fluctuation.
+  PricesSummary prices_summary = 4;
+  // As prices summary, but for the future and current price periods only.
+  PricesSummary prices_future = 6;
+  // A summary of whether there will be a spike and what periods it will occur on.
+  SpikeRange spike = 5;
+}
+
+// Describes the potential course a price pattern may take given the user's price
+// ticker.
+message PotentialPattern {
+  // The price pattern
+  PricePatterns pattern = 1;
+  // THe chance this price pattern will occur
+  double chance = 2;
+  // A summary of the high anf low prices of this pattern
+  PricesSummary prices_summary = 3;
+  // As prices summary, but for the future and current price periods only.
+  PricesSummary prices_future = 6;
+  // The range a spike might occur in
+  SpikeRange spike = 4;
+  // A list of potential price permutations this pattern might produce.
+  repeated PotentialWeek potential_weeks = 5;
+}
+
+// Spike info for the overall prediction.
+message SpikeChances {
+  // Whether the parent has this type of spike.
+  bool has = 1;
+  // The price period (0-11) the spike might start on.
+  int32 start = 2;
+  // The price period (0-11) the spike might end on.
+  int32 end = 3;
+  // The overall chance this type of spike will occur
+  double chance = 4;
+  // A period-by-period breakdown of the chances this type of spike will occur on the
+  // given price period.
+  repeated double breakdown = 5;
+}
+
+// Contains the overall chances of a price spike occurring this week, as well as a
+// breakdown of likelihood for each price period, by spike type.
+message ForecastSpikes {
+  // The chances of a small spike happening this week.
+  SpikeChances small = 1;
+  // The chances of a big spike happening this week.
+  SpikeChances big = 2;
+  // The chances of any spike happening this week.
+  SpikeChances any = 3;
+}
+
+// A forecast for prices on your island
+message Forecast {
+  // A summary of the high and low prices for the island.
+  PricesSummary prices_summary = 1;
+  // As prices summary, but for the future and current price periods only.
+  PricesSummary prices_future = 4;
+  // Information about spike likelihood and potential periods.
+  ForecastSpikes spikes = 2;
+  // Detailed breakdown of each potential price pattern.
+  repeated PotentialPattern patterns = 3;
+}

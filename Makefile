@@ -63,5 +63,6 @@ doc:
 
 .PHONY: proto
 proto:
-	python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. ./stalk-proto/*.proto ./stalk-proto/google/api/*.proto
-
+	python3 -m grpc_tools.protoc -I. --python_out=./gen --python_grpc_out=./gen ./stalk_proto/*.proto ./stalk_proto/google/api/*.proto
+	python3 ./zdevelop/make_scripts/make_proto.py
+	make format
