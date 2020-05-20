@@ -61,7 +61,8 @@ class StalkReporter(StalkReporterBase):
     async def ForecastChart(
         self, stream: server.Stream[ForecastChartReq, ChartResp]
     ) -> None:
-        req: models_reporter.ForecastChartReq = await stream.recv_message()
+        req = await stream.recv_message()
+        assert req is not None
         image_bytes = await self.loop.run_in_executor(
             self.resources.render_pool, run_forecast, req.SerializeToString(),
         )
@@ -72,9 +73,7 @@ class StalkReporter(StalkReporterBase):
 
 def configure_logger() -> logging.Logger:
     log = logging.getLogger()
-    formatter = logging.Formatter(
-        '%(asctime)s %(levelname)s: %(message)s'
-    )
+    formatter = logging.Formatter("%(asctime)s %(levelname)s: %(message)s")
     handler = logging.StreamHandler(sys.stdout)
     handler.setLevel(logging.INFO)
     handler.setFormatter(formatter)
@@ -98,9 +97,9 @@ async def serve() -> None:
         await service.start(host, port)
         log.info(f"serving grpc on {host}:{port}")
         await service.wait_closed()
-        log.info(f"shutting down service")
+        log.info("shutting down service")
 
-    log.info(f"service shutdown complete")
-    log.info(f"releasing resource")
+    log.info("service shutdown complete")
+    log.info("releasing resource")
     await resources.shutdown()
-    log.info(f"shutdown complete")
+    log.info("shutdown complete")

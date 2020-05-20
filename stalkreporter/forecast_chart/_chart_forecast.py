@@ -20,6 +20,7 @@ def create_forecast_chart(
     ticker: models.Ticker,
     forecast: models.Forecast,
     image_format: models_reporter.ImageFormat,
+    debug: bool
 ) -> io.BytesIO:
     """Create the potential prices chart"""
     fig = plt.figure(figsize=(18, 12), dpi=100)
@@ -47,7 +48,8 @@ def create_forecast_chart(
         pad_inches=0,
         transparent=True,
     )
-    fig.show()
+    if debug:
+        fig.show()
 
     buf.seek(0)
     return buf
