@@ -1,8 +1,8 @@
 import io
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
-from gen.stalk_proto import models_pb2 as models
-from gen.stalk_proto import reporter_pb2 as models_reporter
+from protogen.stalk_proto import models_pb2 as models
+from protogen.stalk_proto import reporter_pb2 as models_reporter
 
 from stalkreporter import colors
 from ._plot_pattern_chances import plot_pattern_chances

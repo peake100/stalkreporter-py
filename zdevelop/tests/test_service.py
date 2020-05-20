@@ -1,9 +1,9 @@
 import pytest
 from grpclib.client import Channel
-from gen.stalk_proto import models_pb2 as models
-from gen.stalk_proto import forecaster_grpc as forecaster
-from gen.stalk_proto import reporter_pb2 as models_report
-from gen.stalk_proto import reporter_grpc as reporter
+from protogen.stalk_proto import models_pb2 as models
+from protogen.stalk_proto import forecaster_grpc as forecaster
+from protogen.stalk_proto import reporter_pb2 as models_report
+from protogen.stalk_proto import reporter_grpc as reporter
 
 
 @pytest.mark.asyncio

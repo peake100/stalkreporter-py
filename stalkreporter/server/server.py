@@ -1,10 +1,13 @@
 import asyncio
+import os
+import logging
+import sys
 from grpclib import server
 from grpclib import utils
 from dataclasses import dataclass, field
-from gen.stalk_proto import reporter_pb2 as models_reporter
-from gen.stalk_proto.reporter_grpc import StalkReporterBase
-from gen.stalk_proto.reporter_pb2 import ForecastChartReq, ChartResp
+from protogen.stalk_proto import reporter_pb2 as models_reporter
+from protogen.stalk_proto.reporter_grpc import StalkReporterBase
+from protogen.stalk_proto.reporter_pb2 import ForecastChartReq, ChartResp
 from concurrent.futures import ProcessPoolExecutor
 
 from stalkreporter.forecast_chart import create_forecast_chart
@@ -67,13 +70,37 @@ class StalkReporter(StalkReporterBase):
         await stream.send_message(resp)
 
 
-async def serve() -> None:
+def configure_logger() -> logging.Logger:
+    log = logging.getLogger()
+    formatter = logging.Formatter(
+        '%(asctime)s %(levelname)s: %(message)s'
+    )
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setLevel(logging.INFO)
+    handler.setFormatter(formatter)
+    log.addHandler(handler)
+    log.setLevel(logging.INFO)
+    return log
 
+
+async def serve() -> None:
+    host = os.environ.get("GRPC_HOST", "0.0.0.0")
+    port = int(os.environ.get("GRPC_PORT", "50051"))
+
+    log = configure_logger()
+
+    log.info("creating resources")
     resources = Resources()
     service = server.Server([StalkReporter(resources)])
 
+    log.info("starting up service")
     with utils.graceful_exit([service]):
-        await service.start("localhost", 50051)
+        await service.start(host, port)
+        log.info(f"serving grpc on {host}:{port}")
         await service.wait_closed()
+        log.info(f"shutting down service")
 
+    log.info(f"service shutdown complete")
+    log.info(f"releasing resource")
     await resources.shutdown()
+    log.info(f"shutdown complete")

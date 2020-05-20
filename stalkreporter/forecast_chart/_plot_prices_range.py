@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.lines as mlines
-from gen.stalk_proto import models_pb2 as models
+from protogen.stalk_proto import models_pb2 as models
 from typing import List, Optional
 
 from stalkreporter import utils, colors

@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from gen.stalk_proto import models_pb2 as models
+from protogen.stalk_proto import models_pb2 as models
 from stalkreporter import colors
 from ._consts import LABEL_SIZE
 from stalkreporter import utils

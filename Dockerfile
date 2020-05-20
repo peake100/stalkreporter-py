@@ -31,6 +31,13 @@ RUN python -m venv /opt/venv
 # Make sure we use the virtualenv:
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
+# Add dependencies for building wheels.
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends build-essential gcc
+
+# Upgrade pip and setuptools
+RUN pip install -U --no-cache-dir setuptools pip wheel
+
 # Make /app the work directory
 WORKDIR /app
 
@@ -38,14 +45,6 @@ WORKDIR /app
 # container at /app.
 COPY . /app
 
-# The virtual environment is set in the base image so we don't neeed to worry about
-# setting it
-
-# Add dependencies for building wheels.
-RUN apt-get update
-RUN apt-get install -y --no-install-recommends build-essential gcc
-
-# Install the app (pip and setuptools are upgraded in the base image).
 RUN pip install --no-cache-dir .
 
 # SERVICE IMAGE ##########################
@@ -69,12 +68,12 @@ WORKDIR /app
 
 # Copy ONLY the /directories in the app we need to run it, without getting bogged down
 # by development files.
-COPY service/. /app/stalkreports
-COPY service/. /app/gen
-COPY service/. /app/stalk_proto
+COPY stalkreporter/. /app/stalkreporter
+COPY protogen /app/gen
+COPY stalk_proto/. /app/stalk_proto
 
 # Make port 50051 available to the world outside this container for the grpc connection.
 EXPOSE 50051
 
 # Run service when the container launches
-CMD ["python", "stalkreports"]
+CMD ["python", "stalkreporter"]

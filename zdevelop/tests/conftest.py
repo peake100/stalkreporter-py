@@ -1,5 +1,6 @@
 import asyncio
 import pytest
+import os
 from stalkreporter.server import serve
 
 
@@ -13,6 +14,7 @@ def event_loop():
 
 @pytest.fixture(scope="class")
 async def service(event_loop: asyncio.AbstractEventLoop,) -> None:
+    os.environ["GRPC_HOST"] = "localhost"
     task = event_loop.create_task(serve())
     yield None
     task.cancel()

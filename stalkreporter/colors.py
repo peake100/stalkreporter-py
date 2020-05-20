@@ -1,4 +1,4 @@
-from gen.stalk_proto import models_pb2 as models
+from protogen.stalk_proto import models_pb2 as models
 from .utils import color
 
 # COLOR CONSTANTS
