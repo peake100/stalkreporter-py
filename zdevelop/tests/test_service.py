@@ -32,6 +32,7 @@ async def test_example(service: None) -> None:
     )
     resp = await reports_client.ForecastChart(chart_req)
 
+    assert resp is not None
     assert len(resp.chart) > 0
 
     channel_forecast.close()
