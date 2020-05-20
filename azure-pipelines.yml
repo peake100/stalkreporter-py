@@ -30,3 +30,6 @@ jobs:
   # Link to the pipeline template.
   - template: python_service_main.yml@templates
     parameters:
+      publishDocs: true
+      publishContainer: true
+      installProtoc: true

@@ -102,7 +102,13 @@ def plot_prices_range(
             min_pattern = potential_pattern.pattern
 
     # Create a price grid that matches the price progression
-    plot.grid(axis="y", linestyle="-", linewidth="0.5", color=colors.PRICE_GRID_COLOR)
+    plot.grid(
+        axis="y",
+        linestyle="-",
+        linewidth=0.5,
+        color=colors.PRICE_GRID_COLOR,
+        alpha=colors.PRICE_GRID_ALPHA,
+    )
 
     # Create a dotted line line at the breakeven point that matches the price
     # progression

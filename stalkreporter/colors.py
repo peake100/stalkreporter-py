@@ -2,9 +2,12 @@ from protogen.stalk_proto import models_pb2 as models
 from .utils import color
 
 # COLOR CONSTANTS
-BACKGROUND_COLOR = color(63, 63, 63)
+BACKGROUND_COLOR = color(255, 255, 255)
 PRICE_LABEL_COLOR = color(100, 200, 100, 0.75)
 PRICE_GRID_COLOR = color(74, 109, 77)
+PRICE_GRID_ALPHA = 0.5
+DAY_GRID_COLOR = color(0, 0, 0)
+DAY_GRID_ALPHA = 0.02
 CURRENT_PRICE_COLOR = color(206, 165, 88)
 DAY_LABEL_COLOR = CURRENT_PRICE_COLOR
 WHITE_LABEL_COLOR = color(255, 255, 255, alpha=0.75)

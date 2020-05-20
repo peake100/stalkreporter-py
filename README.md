@@ -1,11 +1,10 @@
-# Islelib
+# Stalkreporter
 
-Islelib is Illuscio's python Library template. "Isle" is the naming convention
-for Illuscio code, chosen for its auditory similarity to "I-L" ("AYE_ELL"), as
-opposed to il-lib which would be phonetically sounded out as "ill".
+Generate nifty carts and graphs for your Animal Crossing stalk prices
+with Stalkreporter!
 
-Islelib comes pre-built with a number of tools for formatting, linting and 
-testing.
+Stalkreporter is a grpc service meant to be used in conjunction with
+results from [stalkforecaster](https://github.com/peake100/stalkforecaster-go)
 
 ## Installation
 

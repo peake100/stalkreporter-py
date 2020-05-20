@@ -132,7 +132,14 @@ def _create_pattern_line(
 
 
 def _create_weekday_grid(weekday_labels: plt.Subplot,) -> None:
-    weekday_labels.grid(axis="x", linestyle="-", linewidth=2, color="white", alpha=0.02)
+    weekday_labels.grid(
+        axis="x",
+        linestyle="-",
+        linewidth=2,
+        color=colors.DAY_GRID_COLOR,
+        alpha=colors.DAY_GRID_ALPHA,
+        zorder=1,
+    )
 
 
 def _plot_current_prices(plot_prices: plt.Subplot, ticker: models.Ticker) -> int:
@@ -218,7 +225,11 @@ def plot_price_periods(
     plot_prices.axes.set_yticks(np.arange(0, 701, 100))
 
     plot_prices.grid(
-        axis="y", linestyle="-", linewidth=0.5, color=colors.PRICE_GRID_COLOR,
+        axis="y",
+        linestyle="-",
+        linewidth=0.5,
+        color=colors.PRICE_GRID_COLOR,
+        alpha=colors.PRICE_GRID_ALPHA,
     )
 
     for pattern in forecast.patterns:
@@ -268,7 +279,7 @@ def plot_price_periods(
     plot_prices.tick_params(
         axis="y",
         labelcolor=colors.PRICE_LABEL_COLOR,
-        labelsize=LABEL_SIZE * 0.85,
+        labelsize=LABEL_SIZE,
         labeltop=False,
         labelbottom=False,
         labelright=True,

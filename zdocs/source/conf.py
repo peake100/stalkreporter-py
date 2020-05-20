@@ -1,13 +1,31 @@
 import configparser
 import pathlib
+import subprocess
 
-config_path = pathlib.Path(__file__).parent.parent.parent / "setup.cfg"
+root_dir = pathlib.Path(__file__).parent.parent.parent
+config_path = root_dir / "setup.cfg"
 config = configparser.ConfigParser()
 config.read(str(config_path))
 
 __version__ = config.get("version", "release")
 if not __version__:
     __version__ = config.get("version", "target")
+
+# generate the protoc html docs
+proc = subprocess.Popen(
+    [
+        "protoc",
+        f"--doc_out=./zdocs/source/_static",
+        "--doc_opt=html,proto.html",
+        f"./stalk_proto/reporter.proto",
+        f"./stalk_proto/models.proto",
+    ],
+    cwd=str(root_dir),
+)
+_, _ = proc.communicate(timeout=30)
+if proc.returncode != 0:
+    print(root_dir)
+    raise RuntimeError("error generating protoc doc html")
 
 # -*- coding: utf-8 -*-
 #
@@ -117,7 +135,7 @@ html_static_path = ["_static"]
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "islelibdoc"
+htmlhelp_basename = "stalkreporterdoc"
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -141,7 +159,13 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, "islelib.tex", "islelib Documentation", "Billy Peake", "manual")
+    (
+        master_doc,
+        "stalkreporter.tex",
+        "stalkreporter Documentation",
+        "Billy Peake",
+        "manual",
+    )
 ]
 
 
@@ -149,7 +173,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, "islelib", "islelib Documentation", 1)]
+man_pages = [(master_doc, "stalkreporter", "stalkreporter Documentation", 1)]
 
 
 # -- Options for Texinfo output ----------------------------------------------
@@ -160,9 +184,9 @@ man_pages = [(master_doc, "islelib", "islelib Documentation", 1)]
 texinfo_documents = [
     (
         master_doc,
-        "islelib",
-        "islelib Documentation",
-        "islelib",
+        "stalkreporter",
+        "stalkreporter Documentation",
+        "stalkreporter",
         "One line description of project.",
         "Miscellaneous",
     )
