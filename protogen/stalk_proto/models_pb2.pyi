@@ -57,6 +57,25 @@ SMALLSPIKE = typing___cast("PricePatterns", 3)
 UNKNOWN = typing___cast("PricePatterns", 4)
 global___PricePatterns = PricePatterns
 
+class ImageFormat(builtin___int):
+    DESCRIPTOR: google___protobuf___descriptor___EnumDescriptor = ...
+    @classmethod
+    def Name(cls, number: builtin___int) -> builtin___str: ...
+    @classmethod
+    def Value(cls, name: builtin___str) -> "ImageFormat": ...
+    @classmethod
+    def keys(cls) -> typing___List[builtin___str]: ...
+    @classmethod
+    def values(cls) -> typing___List["ImageFormat"]: ...
+    @classmethod
+    def items(cls) -> typing___List[typing___Tuple[builtin___str, "ImageFormat"]]: ...
+    SVG = typing___cast("ImageFormat", 0)
+    PNG = typing___cast("ImageFormat", 1)
+
+SVG = typing___cast("ImageFormat", 0)
+PNG = typing___cast("ImageFormat", 1)
+global___ImageFormat = ImageFormat
+
 class Ticker(google___protobuf___message___Message):
     DESCRIPTOR: google___protobuf___descriptor___Descriptor = ...
     purchase_price = ...  # type: builtin___int
@@ -493,3 +512,64 @@ class Forecast(google___protobuf___message___Message):
     ) -> None: ...
 
 global___Forecast = Forecast
+
+class ReqForecastChart(google___protobuf___message___Message):
+    DESCRIPTOR: google___protobuf___descriptor___Descriptor = ...
+    format = ...  # type: global___ImageFormat
+    @property
+    def ticker(self) -> global___Ticker: ...
+    @property
+    def forecast(self) -> global___Forecast: ...
+    def __init__(
+        self,
+        *,
+        ticker: typing___Optional[global___Ticker] = None,
+        forecast: typing___Optional[global___Forecast] = None,
+        format: typing___Optional[global___ImageFormat] = None,
+    ) -> None: ...
+    if sys.version_info >= (3,):
+        @classmethod
+        def FromString(cls, s: builtin___bytes) -> ReqForecastChart: ...
+    else:
+        @classmethod
+        def FromString(
+            cls, s: typing___Union[builtin___bytes, builtin___buffer, builtin___unicode]
+        ) -> ReqForecastChart: ...
+    def MergeFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
+    def CopyFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
+    def HasField(
+        self,
+        field_name: typing_extensions___Literal[
+            "forecast", b"forecast", "ticker", b"ticker"
+        ],
+    ) -> builtin___bool: ...
+    def ClearField(
+        self,
+        field_name: typing_extensions___Literal[
+            "forecast", b"forecast", "format", b"format", "ticker", b"ticker"
+        ],
+    ) -> None: ...
+
+global___ReqForecastChart = ReqForecastChart
+
+class RespChart(google___protobuf___message___Message):
+    DESCRIPTOR: google___protobuf___descriptor___Descriptor = ...
+    chart = ...  # type: builtin___bytes
+    def __init__(
+        self, *, chart: typing___Optional[builtin___bytes] = None,
+    ) -> None: ...
+    if sys.version_info >= (3,):
+        @classmethod
+        def FromString(cls, s: builtin___bytes) -> RespChart: ...
+    else:
+        @classmethod
+        def FromString(
+            cls, s: typing___Union[builtin___bytes, builtin___buffer, builtin___unicode]
+        ) -> RespChart: ...
+    def MergeFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
+    def CopyFrom(self, other_msg: google___protobuf___message___Message) -> None: ...
+    def ClearField(
+        self, field_name: typing_extensions___Literal["chart", b"chart"]
+    ) -> None: ...
+
+global___RespChart = RespChart

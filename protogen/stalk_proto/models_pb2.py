@@ -18,7 +18,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
     package="proto",
     syntax="proto3",
     serialized_options=b"Z,github.com/peake100/stalkforecaster-go/proto",
-    serialized_pb=b'\n\x18stalk_proto/models.proto\x12\x05proto"x\n\x06Ticker\x12\x16\n\x0epurchase_price\x18\x01 \x01(\x05\x12.\n\x10previous_pattern\x18\x02 \x01(\x0e\x32\x14.proto.PricePatterns\x12\x0e\n\x06prices\x18\x03 \x03(\x05\x12\x16\n\x0e\x63urrent_period\x18\x04 \x01(\x05"9\n\x0bPricePeriod\x12\x0b\n\x03min\x18\x01 \x01(\x05\x12\x0b\n\x03max\x18\x02 \x01(\x05\x12\x10\n\x08is_spike\x18\x03 \x01(\x08"\x83\x01\n\rPricesSummary\x12\x0b\n\x03min\x18\x01 \x01(\x05\x12\x0b\n\x03max\x18\x02 \x01(\x05\x12\x12\n\nguaranteed\x18\x06 \x01(\x05\x12\x13\n\x0bmin_periods\x18\x03 \x03(\x05\x12\x13\n\x0bmax_periods\x18\x04 \x03(\x05\x12\x1a\n\x12guaranteed_periods\x18\x05 \x03(\x05"5\n\nSpikeRange\x12\x0b\n\x03has\x18\x01 \x01(\x08\x12\r\n\x05start\x18\x02 \x01(\x05\x12\x0b\n\x03\x65nd\x18\x03 \x01(\x05"\xc0\x01\n\rPotentialWeek\x12\x0e\n\x06\x63hance\x18\x01 \x01(\x01\x12"\n\x06prices\x18\x03 \x03(\x0b\x32\x12.proto.PricePeriod\x12,\n\x0eprices_summary\x18\x04 \x01(\x0b\x32\x14.proto.PricesSummary\x12+\n\rprices_future\x18\x06 \x01(\x0b\x32\x14.proto.PricesSummary\x12 \n\x05spike\x18\x05 \x01(\x0b\x32\x11.proto.SpikeRange"\xf5\x01\n\x10PotentialPattern\x12%\n\x07pattern\x18\x01 \x01(\x0e\x32\x14.proto.PricePatterns\x12\x0e\n\x06\x63hance\x18\x02 \x01(\x01\x12,\n\x0eprices_summary\x18\x03 \x01(\x0b\x32\x14.proto.PricesSummary\x12+\n\rprices_future\x18\x06 \x01(\x0b\x32\x14.proto.PricesSummary\x12 \n\x05spike\x18\x04 \x01(\x0b\x32\x11.proto.SpikeRange\x12-\n\x0fpotential_weeks\x18\x05 \x03(\x0b\x32\x14.proto.PotentialWeek"Z\n\x0cSpikeChances\x12\x0b\n\x03has\x18\x01 \x01(\x08\x12\r\n\x05start\x18\x02 \x01(\x05\x12\x0b\n\x03\x65nd\x18\x03 \x01(\x05\x12\x0e\n\x06\x63hance\x18\x04 \x01(\x01\x12\x11\n\tbreakdown\x18\x05 \x03(\x01"x\n\x0e\x46orecastSpikes\x12"\n\x05small\x18\x01 \x01(\x0b\x32\x13.proto.SpikeChances\x12 \n\x03\x62ig\x18\x02 \x01(\x0b\x32\x13.proto.SpikeChances\x12 \n\x03\x61ny\x18\x03 \x01(\x0b\x32\x13.proto.SpikeChances"\xb7\x01\n\x08\x46orecast\x12,\n\x0eprices_summary\x18\x01 \x01(\x0b\x32\x14.proto.PricesSummary\x12+\n\rprices_future\x18\x04 \x01(\x0b\x32\x14.proto.PricesSummary\x12%\n\x06spikes\x18\x02 \x01(\x0b\x32\x15.proto.ForecastSpikes\x12)\n\x08patterns\x18\x03 \x03(\x0b\x32\x17.proto.PotentialPattern*[\n\rPricePatterns\x12\x0f\n\x0b\x46LUCTUATING\x10\x00\x12\x0c\n\x08\x42IGSPIKE\x10\x01\x12\x0e\n\nDECREASING\x10\x02\x12\x0e\n\nSMALLSPIKE\x10\x03\x12\x0b\n\x07UNKNOWN\x10\x04\x42.Z,github.com/peake100/stalkforecaster-go/protob\x06proto3',
+    serialized_pb=b'\n\x18stalk_proto/models.proto\x12\x05proto"x\n\x06Ticker\x12\x16\n\x0epurchase_price\x18\x01 \x01(\x05\x12.\n\x10previous_pattern\x18\x02 \x01(\x0e\x32\x14.proto.PricePatterns\x12\x0e\n\x06prices\x18\x03 \x03(\x05\x12\x16\n\x0e\x63urrent_period\x18\x04 \x01(\x05"9\n\x0bPricePeriod\x12\x0b\n\x03min\x18\x01 \x01(\x05\x12\x0b\n\x03max\x18\x02 \x01(\x05\x12\x10\n\x08is_spike\x18\x03 \x01(\x08"\x83\x01\n\rPricesSummary\x12\x0b\n\x03min\x18\x01 \x01(\x05\x12\x0b\n\x03max\x18\x02 \x01(\x05\x12\x12\n\nguaranteed\x18\x06 \x01(\x05\x12\x13\n\x0bmin_periods\x18\x03 \x03(\x05\x12\x13\n\x0bmax_periods\x18\x04 \x03(\x05\x12\x1a\n\x12guaranteed_periods\x18\x05 \x03(\x05"5\n\nSpikeRange\x12\x0b\n\x03has\x18\x01 \x01(\x08\x12\r\n\x05start\x18\x02 \x01(\x05\x12\x0b\n\x03\x65nd\x18\x03 \x01(\x05"\xc0\x01\n\rPotentialWeek\x12\x0e\n\x06\x63hance\x18\x01 \x01(\x01\x12"\n\x06prices\x18\x03 \x03(\x0b\x32\x12.proto.PricePeriod\x12,\n\x0eprices_summary\x18\x04 \x01(\x0b\x32\x14.proto.PricesSummary\x12+\n\rprices_future\x18\x06 \x01(\x0b\x32\x14.proto.PricesSummary\x12 \n\x05spike\x18\x05 \x01(\x0b\x32\x11.proto.SpikeRange"\xf5\x01\n\x10PotentialPattern\x12%\n\x07pattern\x18\x01 \x01(\x0e\x32\x14.proto.PricePatterns\x12\x0e\n\x06\x63hance\x18\x02 \x01(\x01\x12,\n\x0eprices_summary\x18\x03 \x01(\x0b\x32\x14.proto.PricesSummary\x12+\n\rprices_future\x18\x06 \x01(\x0b\x32\x14.proto.PricesSummary\x12 \n\x05spike\x18\x04 \x01(\x0b\x32\x11.proto.SpikeRange\x12-\n\x0fpotential_weeks\x18\x05 \x03(\x0b\x32\x14.proto.PotentialWeek"Z\n\x0cSpikeChances\x12\x0b\n\x03has\x18\x01 \x01(\x08\x12\r\n\x05start\x18\x02 \x01(\x05\x12\x0b\n\x03\x65nd\x18\x03 \x01(\x05\x12\x0e\n\x06\x63hance\x18\x04 \x01(\x01\x12\x11\n\tbreakdown\x18\x05 \x03(\x01"x\n\x0e\x46orecastSpikes\x12"\n\x05small\x18\x01 \x01(\x0b\x32\x13.proto.SpikeChances\x12 \n\x03\x62ig\x18\x02 \x01(\x0b\x32\x13.proto.SpikeChances\x12 \n\x03\x61ny\x18\x03 \x01(\x0b\x32\x13.proto.SpikeChances"\xb7\x01\n\x08\x46orecast\x12,\n\x0eprices_summary\x18\x01 \x01(\x0b\x32\x14.proto.PricesSummary\x12+\n\rprices_future\x18\x04 \x01(\x0b\x32\x14.proto.PricesSummary\x12%\n\x06spikes\x18\x02 \x01(\x0b\x32\x15.proto.ForecastSpikes\x12)\n\x08patterns\x18\x03 \x03(\x0b\x32\x17.proto.PotentialPattern"x\n\x10ReqForecastChart\x12\x1d\n\x06ticker\x18\x01 \x01(\x0b\x32\r.proto.Ticker\x12!\n\x08\x66orecast\x18\x02 \x01(\x0b\x32\x0f.proto.Forecast\x12"\n\x06\x66ormat\x18\x03 \x01(\x0e\x32\x12.proto.ImageFormat"\x1a\n\tRespChart\x12\r\n\x05\x63hart\x18\x01 \x01(\x0c*[\n\rPricePatterns\x12\x0f\n\x0b\x46LUCTUATING\x10\x00\x12\x0c\n\x08\x42IGSPIKE\x10\x01\x12\x0e\n\nDECREASING\x10\x02\x12\x0e\n\nSMALLSPIKE\x10\x03\x12\x0b\n\x07UNKNOWN\x10\x04*\x1f\n\x0bImageFormat\x12\x07\n\x03SVG\x10\x00\x12\x07\n\x03PNG\x10\x01\x42.Z,github.com/peake100/stalkforecaster-go/protob\x06proto3',
 )
 
 _PRICEPATTERNS = _descriptor.EnumDescriptor(
@@ -45,17 +45,40 @@ _PRICEPATTERNS = _descriptor.EnumDescriptor(
     ],
     containing_type=None,
     serialized_options=None,
-    serialized_start=1248,
-    serialized_end=1339,
+    serialized_start=1398,
+    serialized_end=1489,
 )
 _sym_db.RegisterEnumDescriptor(_PRICEPATTERNS)
 
 PricePatterns = enum_type_wrapper.EnumTypeWrapper(_PRICEPATTERNS)
+_IMAGEFORMAT = _descriptor.EnumDescriptor(
+    name="ImageFormat",
+    full_name="proto.ImageFormat",
+    filename=None,
+    file=DESCRIPTOR,
+    values=[
+        _descriptor.EnumValueDescriptor(
+            name="SVG", index=0, number=0, serialized_options=None, type=None
+        ),
+        _descriptor.EnumValueDescriptor(
+            name="PNG", index=1, number=1, serialized_options=None, type=None
+        ),
+    ],
+    containing_type=None,
+    serialized_options=None,
+    serialized_start=1491,
+    serialized_end=1522,
+)
+_sym_db.RegisterEnumDescriptor(_IMAGEFORMAT)
+
+ImageFormat = enum_type_wrapper.EnumTypeWrapper(_IMAGEFORMAT)
 FLUCTUATING = 0
 BIGSPIKE = 1
 DECREASING = 2
 SMALLSPIKE = 3
 UNKNOWN = 4
+SVG = 0
+PNG = 1
 
 
 _TICKER = _descriptor.Descriptor(
@@ -948,6 +971,120 @@ _FORECAST = _descriptor.Descriptor(
     serialized_end=1246,
 )
 
+
+_REQFORECASTCHART = _descriptor.Descriptor(
+    name="ReqForecastChart",
+    full_name="proto.ReqForecastChart",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="ticker",
+            full_name="proto.ReqForecastChart.ticker",
+            index=0,
+            number=1,
+            type=11,
+            cpp_type=10,
+            label=1,
+            has_default_value=False,
+            default_value=None,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+        ),
+        _descriptor.FieldDescriptor(
+            name="forecast",
+            full_name="proto.ReqForecastChart.forecast",
+            index=1,
+            number=2,
+            type=11,
+            cpp_type=10,
+            label=1,
+            has_default_value=False,
+            default_value=None,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+        ),
+        _descriptor.FieldDescriptor(
+            name="format",
+            full_name="proto.ReqForecastChart.format",
+            index=2,
+            number=3,
+            type=14,
+            cpp_type=8,
+            label=1,
+            has_default_value=False,
+            default_value=0,
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=1248,
+    serialized_end=1368,
+)
+
+
+_RESPCHART = _descriptor.Descriptor(
+    name="RespChart",
+    full_name="proto.RespChart",
+    filename=None,
+    file=DESCRIPTOR,
+    containing_type=None,
+    fields=[
+        _descriptor.FieldDescriptor(
+            name="chart",
+            full_name="proto.RespChart.chart",
+            index=0,
+            number=1,
+            type=12,
+            cpp_type=9,
+            label=1,
+            has_default_value=False,
+            default_value=b"",
+            message_type=None,
+            enum_type=None,
+            containing_type=None,
+            is_extension=False,
+            extension_scope=None,
+            serialized_options=None,
+            file=DESCRIPTOR,
+        ),
+    ],
+    extensions=[],
+    nested_types=[],
+    enum_types=[],
+    serialized_options=None,
+    is_extendable=False,
+    syntax="proto3",
+    extension_ranges=[],
+    oneofs=[],
+    serialized_start=1370,
+    serialized_end=1396,
+)
+
 _TICKER.fields_by_name["previous_pattern"].enum_type = _PRICEPATTERNS
 _POTENTIALWEEK.fields_by_name["prices"].message_type = _PRICEPERIOD
 _POTENTIALWEEK.fields_by_name["prices_summary"].message_type = _PRICESSUMMARY
@@ -965,6 +1102,9 @@ _FORECAST.fields_by_name["prices_summary"].message_type = _PRICESSUMMARY
 _FORECAST.fields_by_name["prices_future"].message_type = _PRICESSUMMARY
 _FORECAST.fields_by_name["spikes"].message_type = _FORECASTSPIKES
 _FORECAST.fields_by_name["patterns"].message_type = _POTENTIALPATTERN
+_REQFORECASTCHART.fields_by_name["ticker"].message_type = _TICKER
+_REQFORECASTCHART.fields_by_name["forecast"].message_type = _FORECAST
+_REQFORECASTCHART.fields_by_name["format"].enum_type = _IMAGEFORMAT
 DESCRIPTOR.message_types_by_name["Ticker"] = _TICKER
 DESCRIPTOR.message_types_by_name["PricePeriod"] = _PRICEPERIOD
 DESCRIPTOR.message_types_by_name["PricesSummary"] = _PRICESSUMMARY
@@ -974,7 +1114,10 @@ DESCRIPTOR.message_types_by_name["PotentialPattern"] = _POTENTIALPATTERN
 DESCRIPTOR.message_types_by_name["SpikeChances"] = _SPIKECHANCES
 DESCRIPTOR.message_types_by_name["ForecastSpikes"] = _FORECASTSPIKES
 DESCRIPTOR.message_types_by_name["Forecast"] = _FORECAST
+DESCRIPTOR.message_types_by_name["ReqForecastChart"] = _REQFORECASTCHART
+DESCRIPTOR.message_types_by_name["RespChart"] = _RESPCHART
 DESCRIPTOR.enum_types_by_name["PricePatterns"] = _PRICEPATTERNS
+DESCRIPTOR.enum_types_by_name["ImageFormat"] = _IMAGEFORMAT
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Ticker = _reflection.GeneratedProtocolMessageType(
@@ -1075,6 +1218,28 @@ Forecast = _reflection.GeneratedProtocolMessageType(
     },
 )
 _sym_db.RegisterMessage(Forecast)
+
+ReqForecastChart = _reflection.GeneratedProtocolMessageType(
+    "ReqForecastChart",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _REQFORECASTCHART,
+        "__module__": "stalk_proto.models_pb2"
+        # @@protoc_insertion_point(class_scope:proto.ReqForecastChart)
+    },
+)
+_sym_db.RegisterMessage(ReqForecastChart)
+
+RespChart = _reflection.GeneratedProtocolMessageType(
+    "RespChart",
+    (_message.Message,),
+    {
+        "DESCRIPTOR": _RESPCHART,
+        "__module__": "stalk_proto.models_pb2"
+        # @@protoc_insertion_point(class_scope:proto.RespChart)
+    },
+)
+_sym_db.RegisterMessage(RespChart)
 
 
 DESCRIPTOR._options = None

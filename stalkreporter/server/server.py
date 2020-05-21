@@ -5,9 +5,8 @@ import sys
 from grpclib import server
 from grpclib import utils
 from dataclasses import dataclass, field
-from protogen.stalk_proto import reporter_pb2 as models_reporter
 from protogen.stalk_proto.reporter_grpc import StalkReporterBase
-from protogen.stalk_proto.reporter_pb2 import ForecastChartReq, ChartResp
+from protogen.stalk_proto import models_pb2 as models
 from concurrent.futures import ProcessPoolExecutor
 
 from stalkreporter.forecast_chart import create_forecast_chart
@@ -44,7 +43,7 @@ def run_forecast(proto_serialized: bytes, debug: bool) -> bytes:
     meant to be the target of the process pool and handles receiving the proto message
     from the main process and sending back the rendered chart.
     """
-    req = models_reporter.ForecastChartReq.FromString(proto_serialized,)
+    req = models.ReqForecastChart.FromString(proto_serialized,)
 
     svg_buffer = create_forecast_chart(
         ticker=req.ticker, forecast=req.forecast, image_format=req.format, debug=debug
@@ -60,7 +59,7 @@ class StalkReporter(StalkReporterBase):
         super().__init__()
 
     async def ForecastChart(
-        self, stream: server.Stream[ForecastChartReq, ChartResp]
+        self, stream: server.Stream[models.ReqForecastChart, models.RespChart]
     ) -> None:
         req = await stream.recv_message()
         assert req is not None
@@ -71,7 +70,7 @@ class StalkReporter(StalkReporterBase):
             self.debug,
         )
 
-        resp = ChartResp(chart=image_bytes)
+        resp = models.RespChart(chart=image_bytes)
         await stream.send_message(resp)
 
 

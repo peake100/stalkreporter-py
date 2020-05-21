@@ -2,7 +2,6 @@ import io
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
 from protogen.stalk_proto import models_pb2 as models
-from protogen.stalk_proto import reporter_pb2 as models_reporter
 
 from stalkreporter import colors
 from ._plot_pattern_chances import plot_pattern_chances
@@ -11,15 +10,15 @@ from ._plot_periods import plot_price_periods
 
 
 FORMAT_NAMES = {
-    models_reporter.ImageFormat.SVG: "svg",
-    models_reporter.ImageFormat.PNG: "png",
+    models.ImageFormat.SVG: "svg",
+    models.ImageFormat.PNG: "png",
 }
 
 
 def create_forecast_chart(
     ticker: models.Ticker,
     forecast: models.Forecast,
-    image_format: models_reporter.ImageFormat,
+    image_format: models.ImageFormat,
     debug: bool,
 ) -> io.BytesIO:
     """Create the potential prices chart"""

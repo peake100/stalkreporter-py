@@ -19,7 +19,7 @@ class StalkReporterBase(abc.ABC):
     @abc.abstractmethod
     async def ForecastChart(
         self,
-        stream: "grpclib.server.Stream[protogen.stalk_proto.reporter_pb2.ForecastChartReq, protogen.stalk_proto.reporter_pb2.ChartResp]",
+        stream: "grpclib.server.Stream[protogen.stalk_proto.models_pb2.ReqForecastChart, protogen.stalk_proto.models_pb2.RespChart]",
     ) -> None:
         pass
 
@@ -28,8 +28,8 @@ class StalkReporterBase(abc.ABC):
             "/proto.StalkReporter/ForecastChart": grpclib.const.Handler(
                 self.ForecastChart,
                 grpclib.const.Cardinality.UNARY_UNARY,
-                protogen.stalk_proto.reporter_pb2.ForecastChartReq,
-                protogen.stalk_proto.reporter_pb2.ChartResp,
+                protogen.stalk_proto.models_pb2.ReqForecastChart,
+                protogen.stalk_proto.models_pb2.RespChart,
             ),
         }
 
@@ -39,6 +39,6 @@ class StalkReporterStub:
         self.ForecastChart = grpclib.client.UnaryUnaryMethod(
             channel,
             "/proto.StalkReporter/ForecastChart",
-            protogen.stalk_proto.reporter_pb2.ForecastChartReq,
-            protogen.stalk_proto.reporter_pb2.ChartResp,
+            protogen.stalk_proto.models_pb2.ReqForecastChart,
+            protogen.stalk_proto.models_pb2.RespChart,
         )

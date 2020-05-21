@@ -2,12 +2,11 @@ import pytest
 from grpclib.client import Channel
 from protogen.stalk_proto import models_pb2 as models
 from protogen.stalk_proto import forecaster_grpc as forecaster
-from protogen.stalk_proto import reporter_pb2 as models_report
 from protogen.stalk_proto import reporter_grpc as reporter
 
 
 @pytest.mark.asyncio
-async def test_example(service: None) -> None:
+async def test_chart_req(service: None) -> None:
     big_progression = [95, 92, 89, 86, 117, 197]
 
     channel_forecast = Channel(
@@ -27,8 +26,8 @@ async def test_example(service: None) -> None:
     )
     forecast = await forecast_client.ForecastPrices(ticker)
 
-    chart_req = models_report.ForecastChartReq(
-        ticker=ticker, forecast=forecast, format=models_report.ImageFormat.SVG
+    chart_req = models.ReqForecastChart(
+        ticker=ticker, forecast=forecast, format=models.ImageFormat.SVG
     )
     resp = await reports_client.ForecastChart(chart_req)
 

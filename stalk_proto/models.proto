@@ -135,3 +135,25 @@ message Forecast {
   // Detailed breakdown of each potential price pattern.
   repeated PotentialPattern patterns = 3;
 }
+
+// Supported chart image formats
+enum ImageFormat {
+  SVG = 0;
+  PNG = 1;
+}
+
+// Request message for creating a turnip forecast chart.
+message ReqForecastChart {
+  // Price ticker of the current prices on the island.
+  Ticker ticker = 1;
+  // The forecast for future prices on the the island.
+  Forecast forecast = 2;
+  // desired image format
+  ImageFormat format = 3;
+}
+
+// Response message with a rendered svg chart.
+message RespChart {
+  // Binary image bytes for rendered chart.
+  bytes chart = 1;
+}
