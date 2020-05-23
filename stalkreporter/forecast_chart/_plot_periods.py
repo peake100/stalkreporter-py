@@ -87,7 +87,7 @@ def _create_pattern_line(
 
         # We need to render the numbers ABOVE the spike patter so that they don't
         # get illegible as the spike placement becomes more certain.
-        plt.annotate(
+        price_plot.annotate(
             utils.format_chance(chance),
             (period, high_price),
             textcoords="offset points",
@@ -99,7 +99,7 @@ def _create_pattern_line(
         )
 
     # Annotate the total chance of this spike
-    plt.annotate(
+    price_plot.annotate(
         utils.format_chance(spike_pattern.chance),
         (first_period - 0.5 - 0.1, high_price),
         ha="right",
@@ -119,7 +119,7 @@ def _create_pattern_line(
     middle = first_period + (last_period - first_period) / 2
     middle_price = next(p for p in period_highs if p)
 
-    plt.annotate(
+    price_plot.annotate(
         "daily:",
         (middle, middle_price + y_annotation_distance * 2.5),
         textcoords="offset points",

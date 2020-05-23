@@ -22,7 +22,7 @@ def create_forecast_chart(
     debug: bool,
 ) -> io.BytesIO:
     """Create the potential prices chart"""
-    fig = plt.figure(figsize=(18, 12), dpi=100)
+    fig = plt.figure(figsize=(18, 12), dpi=70)
     fig.set_facecolor(colors.BACKGROUND_COLOR)
     fig.set_edgecolor(colors.BACKGROUND_COLOR)
 
@@ -49,7 +49,12 @@ def create_forecast_chart(
         transparent=True,
     )
     if debug:
+        print("showing figure")
         fig.show()
 
+    fig.clear()
+    plt.close(fig)
+
     buf.seek(0)
+
     return buf

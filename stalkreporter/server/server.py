@@ -2,12 +2,13 @@ import asyncio
 import os
 import logging
 import sys
+import matplotlib
 from grpclib import server
 from grpclib import utils
 from dataclasses import dataclass, field
 from protogen.stalk_proto.reporter_grpc import StalkReporterBase
 from protogen.stalk_proto import models_pb2 as models
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ThreadPoolExecutor
 
 from stalkreporter.forecast_chart import create_forecast_chart
 
@@ -27,10 +28,10 @@ class Resources:
     #
     # We can sidestep all these problems by running the charting function in a process
     # pool executor, started up before matplotlib is called on to make a figure.
-    render_pool: ProcessPoolExecutor = field(init=False)
+    render_pool: ThreadPoolExecutor = field(init=False)
 
     def __post_init__(self) -> None:
-        self.render_pool = ProcessPoolExecutor()
+        self.render_pool = ThreadPoolExecutor(max_workers=8)
 
     async def shutdown(self) -> None:
         self.render_pool.shutdown(wait=True)
@@ -89,6 +90,9 @@ async def serve() -> None:
     host = os.environ.get("GRPC_HOST", "0.0.0.0")
     port = int(os.environ.get("GRPC_PORT", "50051"))
     debug = os.environ.get("DEBUG", "FALSE").upper() == "TRUE"
+
+    if not debug:
+        matplotlib.use("agg")
 
     log = configure_logger()
 
