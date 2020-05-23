@@ -158,6 +158,9 @@ def _plot_current_prices(plot_prices: plt.Subplot, ticker: models.Ticker) -> int
 
             current_period = i
 
+    if ticker.current_period > current_period:
+        current_period = ticker.current_period
+
     plot_prices.step(
         [i for i in range(-1, PRICE_PERIOD_COUNT + 1)],
         prices,

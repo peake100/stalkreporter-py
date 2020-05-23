@@ -10,8 +10,7 @@ async def test_chart_req(service: None) -> None:
     big_progression = [95, 92, 89, 86, 117, 197]
 
     channel_forecast = Channel(
-        host="stalkforecastergrpc-env.eba-evmzyctu.us-east-2.elasticbeanstalk.com",
-        port=50051,
+        host="stalks.us-west-1.elasticbeanstalk.com", port=50051,
     )
     forecast_client = forecaster.StalkForecasterStub(channel_forecast)
 
@@ -22,7 +21,7 @@ async def test_chart_req(service: None) -> None:
         purchase_price=107,
         previous_pattern=models.PricePatterns.UNKNOWN,
         prices=big_progression,
-        current_period=len(big_progression) - 1,
+        current_period=len(big_progression),
     )
     forecast = await forecast_client.ForecastPrices(ticker)
 

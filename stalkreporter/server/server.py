@@ -37,14 +37,13 @@ class Resources:
         self.render_pool.shutdown(wait=True)
 
 
-def run_forecast(proto_serialized: bytes, debug: bool) -> bytes:
+def run_forecast(req: models.ReqForecastChart, debug: bool) -> bytes:
     """
     The generated proto classes are not pickle-able so we need to send them to the
     process pool as raw proto messages and deserialize them there. This function is
     meant to be the target of the process pool and handles receiving the proto message
     from the main process and sending back the rendered chart.
     """
-    req = models.ReqForecastChart.FromString(proto_serialized,)
 
     svg_buffer = create_forecast_chart(
         ticker=req.ticker, forecast=req.forecast, image_format=req.format, debug=debug
@@ -65,10 +64,7 @@ class StalkReporter(StalkReporterBase):
         req = await stream.recv_message()
         assert req is not None
         image_bytes = await self.loop.run_in_executor(
-            self.resources.render_pool,
-            run_forecast,
-            req.SerializeToString(),
-            self.debug,
+            self.resources.render_pool, run_forecast, req, self.debug,
         )
 
         resp = models.RespChart(chart=image_bytes)
