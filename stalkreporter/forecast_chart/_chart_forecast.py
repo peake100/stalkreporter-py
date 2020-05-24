@@ -24,7 +24,7 @@ def create_forecast_chart(options: ForecastOptions) -> io.BytesIO:
         fig.set_edgecolor(options.bg_color)
 
     grid = gridspec.GridSpec(
-        ncols=2, nrows=2, figure=fig, width_ratios=[4, 1], height_ratios=[1.5, 14]
+        ncols=2, nrows=2, figure=fig, width_ratios=[4, 1], height_ratios=[1.5, 14],
     )
 
     pattern_chance_plot = fig.add_subplot(grid[0, 0:])
@@ -37,7 +37,15 @@ def create_forecast_chart(options: ForecastOptions) -> io.BytesIO:
     plot_price_periods(plot_prices, options)
 
     buf = io.BytesIO()
-    fig.tight_layout()
+    # Apply padding
+    fig.tight_layout(
+        rect=[
+            options.padding,
+            options.padding,
+            1 - options.padding,
+            1 - options.padding,
+        ]
+    )
 
     if not options.bg_color:
         save_kwargs: Dict[str, Any] = dict(transparent=True)
@@ -47,11 +55,7 @@ def create_forecast_chart(options: ForecastOptions) -> io.BytesIO:
         )
 
     fig.savefig(
-        buf,
-        format=FORMAT_NAMES[options.image_format],
-        bbox_inches="tight",
-        dpi=fig.dpi,
-        **save_kwargs
+        buf, format=FORMAT_NAMES[options.image_format], dpi=fig.dpi, **save_kwargs
     )
     if options.debug:
         print("showing figure")

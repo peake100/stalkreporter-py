@@ -56,6 +56,7 @@ def run_forecast(req: models.ReqForecastChart, debug: bool) -> bytes:
         forecast=req.forecast,
         image_format=req.format,
         bg_color=bg_color,
+        padding=req.padding,
         debug=debug,
     )
     svg_buffer = create_forecast_chart(options)

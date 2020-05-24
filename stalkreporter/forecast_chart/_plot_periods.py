@@ -275,7 +275,7 @@ def plot_price_periods(plot_prices: plt.Subplot, options: ForecastOptions,) -> N
     # Set the labels
     weekday_labels.set_xticklabels(PRICE_DAYS)
     # Move the weekday labels down a littls
-    weekday_labels.spines["bottom"].set_position(("axes", -0.04))
+    weekday_labels.spines["bottom"].set_position(("axes", -0.06))
     _create_weekday_grid(weekday_labels)
 
     # style price axes
