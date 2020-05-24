@@ -5,7 +5,7 @@ package proto;
 import "stalk_proto/google/api/annotations.proto";
 import "stalk_proto/models.proto";
 
-option go_package = "github.com/peake100/stalkforecaster-go/proto";
+option go_package = "github.com/peake100/stalkforecaster-go/stalkproto";
 
 
 // The reporting service definition.
@@ -13,7 +13,7 @@ service StalkReporter {
   // Takes a forecast and turns it into a pretty report
   rpc ForecastChart (ReqForecastChart) returns (RespChart) {
     option (google.api.http) = {
-      post: "/charts/forecast"
+      post: "/api/charts/forecast"
       body: "*"
     };
   }

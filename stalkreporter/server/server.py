@@ -9,8 +9,10 @@ from dataclasses import dataclass, field
 from protogen.stalk_proto.reporter_grpc import StalkReporterBase
 from protogen.stalk_proto import models_pb2 as models
 from concurrent.futures import ThreadPoolExecutor
+from typing import Optional
 
-from stalkreporter.forecast_chart import create_forecast_chart
+from stalkreporter.forecast_chart import create_forecast_chart, ForecastOptions
+from stalkreporter import colors
 
 
 @dataclass
@@ -44,10 +46,19 @@ def run_forecast(req: models.ReqForecastChart, debug: bool) -> bytes:
     meant to be the target of the process pool and handles receiving the proto message
     from the main process and sending back the rendered chart.
     """
+    if req.color_background:
+        bg_color: Optional[colors.ColorType] = colors.hex2rgb(req.color_background)
+    else:
+        bg_color = None
 
-    svg_buffer = create_forecast_chart(
-        ticker=req.ticker, forecast=req.forecast, image_format=req.format, debug=debug
+    options = ForecastOptions(
+        ticker=req.ticker,
+        forecast=req.forecast,
+        image_format=req.format,
+        bg_color=bg_color,
+        debug=debug,
     )
+    svg_buffer = create_forecast_chart(options)
     return svg_buffer.read()
 
 

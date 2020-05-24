@@ -1,8 +1,7 @@
 import matplotlib.pyplot as plt
 from protogen.stalk_proto import models_pb2 as models
-from stalkreporter import colors
 from ._consts import LABEL_SIZE
-from stalkreporter import utils
+from stalkreporter import utils, colors
 
 
 PATTERN_NAMES = {
@@ -34,7 +33,7 @@ def plot_pattern_chances(plot: plt.Subplot, forecast: models.Forecast) -> None:
             height=0.8,
             width=adjusted_chance,
             left=total,
-            color=utils.color(*pattern_color, alpha=chance),
+            color=colors.color(*pattern_color, alpha=chance),
             linewidth=0,
         )
 

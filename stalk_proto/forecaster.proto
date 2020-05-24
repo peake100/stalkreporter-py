@@ -5,7 +5,7 @@ package proto;
 import "stalk_proto/google/api/annotations.proto";
 import "stalk_proto/models.proto";
 
-option go_package = "github.com/peake100/stalkforecaster-go/proto";
+option go_package = "github.com/peake100/stalkforecaster-go/stalkproto";
 
 
 // The forecasting service definition.
@@ -13,7 +13,7 @@ service StalkForecaster {
   // Returns a turnip price forecast for supplied price ticker.
   rpc ForecastPrices (Ticker) returns (Forecast) {
     option (google.api.http) = {
-      post: "/forecast"
+      post: "/api/forecast"
       body: "*"
     };
   }
