@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite errors="0" failures="0" hostname="fv-az578" name="pytest" skipped="0" tests="1" time="5.419" timestamp="2020-05-24T23:15:23.545413"><testcase classname="zdevelop.tests.test_service" file="zdevelop/tests/test_service.py" line="7" name="test_chart_req" time="1.266"></testcase></testsuite></testsuites>
