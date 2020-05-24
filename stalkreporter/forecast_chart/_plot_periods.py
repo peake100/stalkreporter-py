@@ -7,6 +7,7 @@ from protogen.stalk_proto import models_pb2 as models
 from typing import List, Optional
 
 from stalkreporter import utils, colors
+from ._options import ForecastOptions
 from ._consts import (
     PRICE_PERIOD_COUNT,
     PRICE_TODS,
@@ -37,7 +38,7 @@ def _create_price_bars(
     )
 
     bar_color = colors.PATTERN_COLORS[pattern]
-    bar_color = utils.color(*bar_color, alpha=utils.chance_alpha(week.chance))
+    bar_color = colors.color(*bar_color, alpha=utils.chance_alpha(week.chance))
     plot.bar(ind, max_prices, width, bottom=min_prices, color=bar_color)
 
 
@@ -109,7 +110,7 @@ def _create_pattern_line(
         alpha=0.75,
         bbox={
             "boxstyle": "Circle,pad=0.6",
-            "facecolor": utils.color(*spike_color),
+            "facecolor": colors.color(*spike_color),
             "edgecolor": spike_color,
             "linewidth": 0,
         },
@@ -212,18 +213,16 @@ def _plot_current_prices(plot_prices: plt.Subplot, ticker: models.Ticker) -> int
     return current_period
 
 
-def plot_price_periods(
-    plot_prices: plt.Subplot, ticker: models.Ticker, forecast: models.Forecast,
-) -> None:
+def plot_price_periods(plot_prices: plt.Subplot, options: ForecastOptions,) -> None:
 
     # set bg color for all graphs
     for plot in [plot_prices]:
-        plot.set_facecolor(colors.BACKGROUND_COLOR)
+        plot.set_facecolor(options.bg_color)
         # Remove all spines
         for spine in plot.spines.values():
             spine.set_visible(False)
 
-    plot_prices.set_facecolor(colors.BACKGROUND_COLOR)
+    plot_prices.set_facecolor(options.bg_color)
     plot_prices.set_ylim(PRICE_Y_LIM)
     plot_prices.axes.set_yticks(np.arange(0, 701, 100))
 
@@ -235,6 +234,7 @@ def plot_price_periods(
         alpha=colors.PRICE_GRID_ALPHA,
     )
 
+    forecast = options.forecast
     for pattern in forecast.patterns:
         for week in pattern.potential_weeks:
             _create_price_bars(plot_prices, week, pattern.pattern)
@@ -319,7 +319,7 @@ def plot_price_periods(
     )
 
     # Style tod and day label for current price period
-    current_period = _plot_current_prices(plot_prices, ticker)
+    current_period = _plot_current_prices(plot_prices, options.ticker)
     if current_period != -1:
         bbox = dict(boxstyle="round,pad=0.5", color=colors.DAY_LABEL_COLOR,)
         current_tod_label = bottom_axis.xaxis.get_ticklabels()[current_period]

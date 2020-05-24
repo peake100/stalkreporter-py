@@ -2,11 +2,12 @@ import io
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
 from protogen.stalk_proto import models_pb2 as models
+from typing import Dict, Any
 
-from stalkreporter import colors
 from ._plot_pattern_chances import plot_pattern_chances
 from ._plot_prices_range import plot_prices_range
 from ._plot_periods import plot_price_periods
+from ._options import ForecastOptions
 
 
 FORMAT_NAMES = {
@@ -15,40 +16,44 @@ FORMAT_NAMES = {
 }
 
 
-def create_forecast_chart(
-    ticker: models.Ticker,
-    forecast: models.Forecast,
-    image_format: models.ImageFormat,
-    debug: bool,
-) -> io.BytesIO:
+def create_forecast_chart(options: ForecastOptions) -> io.BytesIO:
     """Create the potential prices chart"""
     fig = plt.figure(figsize=(18, 12), dpi=70)
-    fig.set_facecolor(colors.BACKGROUND_COLOR)
-    fig.set_edgecolor(colors.BACKGROUND_COLOR)
+    if options.bg_color:
+        fig.set_facecolor(options.bg_color)
+        fig.set_edgecolor(options.bg_color)
 
     grid = gridspec.GridSpec(
         ncols=2, nrows=2, figure=fig, width_ratios=[4, 1], height_ratios=[1.5, 14]
     )
 
     pattern_chance_plot = fig.add_subplot(grid[0, 0:])
-    plot_pattern_chances(pattern_chance_plot, forecast)
+    plot_pattern_chances(pattern_chance_plot, options.forecast)
 
     plot_price_range = fig.add_subplot(grid[1, 1])
-    plot_prices_range(plot_price_range, ticker, forecast)
+    plot_prices_range(plot_price_range, options.ticker, options.forecast)
 
     plot_prices = fig.add_subplot(grid[1, 0])
-    plot_price_periods(plot_prices, ticker, forecast)
+    plot_price_periods(plot_prices, options)
 
     buf = io.BytesIO()
     fig.tight_layout()
+
+    if not options.bg_color:
+        save_kwargs: Dict[str, Any] = dict(transparent=True)
+    else:
+        save_kwargs = dict(
+            facecolor=options.bg_color, edgecolor=options.bg_color, transparent=False,
+        )
+
     fig.savefig(
         buf,
-        format=FORMAT_NAMES[image_format],
+        format=FORMAT_NAMES[options.image_format],
         bbox_inches="tight",
         dpi=fig.dpi,
-        transparent=True,
+        **save_kwargs
     )
-    if debug:
+    if options.debug:
         print("showing figure")
         fig.show()
 

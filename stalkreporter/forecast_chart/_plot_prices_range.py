@@ -4,7 +4,7 @@ import matplotlib.lines as mlines
 from protogen.stalk_proto import models_pb2 as models
 from typing import List, Optional
 
-from stalkreporter import utils, colors
+from stalkreporter import colors
 from ._consts import (
     PRICE_Y_LIM,
     LABEL_SIZE,
@@ -78,7 +78,7 @@ def plot_prices_range(
         max_price = potential_pattern.prices_future.max
 
         pattern_color = colors.PATTERN_COLORS[potential_pattern.pattern]
-        bar_color = utils.color(*pattern_color, alpha=potential_pattern.chance)
+        bar_color = colors.color(*pattern_color, alpha=potential_pattern.chance)
 
         plot.bar(
             [bar_position],

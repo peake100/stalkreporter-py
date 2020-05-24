@@ -1,5 +1,4 @@
 from protogen.stalk_proto import models_pb2 as models
-from typing import Union, Optional, List
 
 
 def chance_alpha(chance: float) -> float:
@@ -30,21 +29,3 @@ def get_pattern(
             return potential_pattern
 
     raise ValueError(f"could not find match for pattern '{pattern}'")
-
-
-def color(*channels: Union[int, float], alpha: Optional[float] = None) -> List[float]:
-    """
-    Convert a set 0-255 RGB int values to 0.0-1.0 floats. Alpha is expected to already
-    be formatted as a float.
-
-    If the ``channels`` values are already floats, no changes will be made.
-    """
-    values: List[float] = list()
-    for channel_value in channels:
-        if isinstance(channel_value, int):
-            channel_value = float(channel_value) / 255.0
-        values.append(channel_value)
-
-    if alpha is not None:
-        values.append(alpha)
-    return values
