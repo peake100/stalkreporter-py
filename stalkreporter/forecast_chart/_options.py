@@ -11,4 +11,5 @@ class ForecastOptions:
     forecast: proto.Forecast
     image_format: proto.ImageFormat
     bg_color: Optional[colors.ColorType]
+    padding: float
     debug: bool

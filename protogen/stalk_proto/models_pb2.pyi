@@ -518,6 +518,7 @@ class ReqForecastChart(google___protobuf___message___Message):
     DESCRIPTOR: google___protobuf___descriptor___Descriptor = ...
     format = ...  # type: global___ImageFormat
     color_background = ...  # type: typing___Text
+    padding = ...  # type: builtin___float
     @property
     def ticker(self) -> global___Ticker: ...
     @property
@@ -529,6 +530,7 @@ class ReqForecastChart(google___protobuf___message___Message):
         forecast: typing___Optional[global___Forecast] = None,
         format: typing___Optional[global___ImageFormat] = None,
         color_background: typing___Optional[typing___Text] = None,
+        padding: typing___Optional[builtin___float] = None,
     ) -> None: ...
     if sys.version_info >= (3,):
         @classmethod
@@ -555,6 +557,8 @@ class ReqForecastChart(google___protobuf___message___Message):
             b"forecast",
             "format",
             b"format",
+            "padding",
+            b"padding",
             "ticker",
             b"ticker",
         ],

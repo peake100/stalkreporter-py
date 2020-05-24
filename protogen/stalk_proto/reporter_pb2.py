@@ -20,8 +20,8 @@ DESCRIPTOR = _descriptor.FileDescriptor(
     name="stalk_proto/reporter.proto",
     package="proto",
     syntax="proto3",
-    serialized_options=b"Z,github.com/peake100/stalkforecaster-go/proto",
-    serialized_pb=b'\n\x1astalk_proto/reporter.proto\x12\x05proto\x1a(stalk_proto/google/api/annotations.proto\x1a\x18stalk_proto/models.proto2h\n\rStalkReporter\x12W\n\rForecastChart\x12\x17.proto.ReqForecastChart\x1a\x10.proto.RespChart"\x1b\x82\xd3\xe4\x93\x02\x15"\x10/charts/forecast:\x01*B.Z,github.com/peake100/stalkforecaster-go/protob\x06proto3',
+    serialized_options=b"Z1github.com/peake100/stalkforecaster-go/stalkproto",
+    serialized_pb=b'\n\x1astalk_proto/reporter.proto\x12\x05proto\x1a(stalk_proto/google/api/annotations.proto\x1a\x18stalk_proto/models.proto2l\n\rStalkReporter\x12[\n\rForecastChart\x12\x17.proto.ReqForecastChart\x1a\x10.proto.RespChart"\x1f\x82\xd3\xe4\x93\x02\x19"\x14/api/charts/forecast:\x01*B3Z1github.com/peake100/stalkforecaster-go/stalkprotob\x06proto3',
     dependencies=[
         stalk__proto_dot_google_dot_api_dot_annotations__pb2.DESCRIPTOR,
         stalk__proto_dot_models__pb2.DESCRIPTOR,
@@ -41,7 +41,7 @@ _STALKREPORTER = _descriptor.ServiceDescriptor(
     index=0,
     serialized_options=None,
     serialized_start=105,
-    serialized_end=209,
+    serialized_end=213,
     methods=[
         _descriptor.MethodDescriptor(
             name="ForecastChart",
@@ -50,7 +50,7 @@ _STALKREPORTER = _descriptor.ServiceDescriptor(
             containing_service=None,
             input_type=stalk__proto_dot_models__pb2._REQFORECASTCHART,
             output_type=stalk__proto_dot_models__pb2._RESPCHART,
-            serialized_options=b'\202\323\344\223\002\025"\020/charts/forecast:\001*',
+            serialized_options=b'\202\323\344\223\002\031"\024/api/charts/forecast:\001*',
         ),
     ],
 )

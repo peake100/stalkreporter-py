@@ -150,8 +150,10 @@ message ReqForecastChart {
   Forecast forecast = 2;
   // desired image format
   ImageFormat format = 3;
-  // hex value for the background coloe of the chart or empty for transparent
+  // hex value for the background color of the chart or empty for transparent
   string color_background = 4;
+  // The amount of padding to surround the image with
+  float padding = 5;
 }
 
 // Response message with a rendered svg chart.
