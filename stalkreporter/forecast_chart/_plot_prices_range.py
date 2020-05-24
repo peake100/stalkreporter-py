@@ -118,7 +118,7 @@ def plot_prices_range(
     _create_price_watermark(
         plot,
         "potential",
-        forecast.prices_summary.max,
+        forecast.prices_future.max,
         va_top=False,
         pattern=max_pattern,
     )
