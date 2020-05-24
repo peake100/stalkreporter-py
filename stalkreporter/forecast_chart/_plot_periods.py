@@ -14,32 +14,49 @@ from ._consts import (
     PRICE_DAYS,
     PRICE_Y_LIM,
     LABEL_SIZE,
+    PRICE_PERIODS,
 )
 
+# Because of the way we are rendering the step graph, we need to extend it half a period
+# on other side so the first and last price period don't take up only half of their
+# allotted space
+PRICE_PERIODS_EXTENDED: List[float] = [p for p in PRICE_PERIODS]
+PRICE_PERIODS_EXTENDED.insert(0, -0.5)
+PRICE_PERIODS_EXTENDED.append(11.5)
 
-def _create_price_bars(
+
+def _create_week_area(
     plot: plt.Subplot, week: models.PotentialWeek, pattern: models.PricePatterns,
 ) -> None:
     """Add the price par chart for a specific potential week."""
 
-    max_prices: List[int] = list()
     min_prices: List[int] = list()
+    max_prices: List[int] = list()
 
     for prices in week.prices:
-        max_prices.append(prices.max - prices.min)
         min_prices.append(prices.min)
+        max_prices.append(prices.max)
+
+    # We need to double up the first and last point so areas for the first and last
+    # period hit the edge of the graph
+    min_prices.insert(0, min_prices[0])
+    max_prices.insert(0, max_prices[0])
+
+    min_prices.append(min_prices[-1])
+    max_prices.append(max_prices[-1])
 
     # the x locations for the bars
-    ind = np.arange(PRICE_PERIOD_COUNT)
-    width = 1
-
-    plot.bar(
-        ind, min_prices, width, color=(0.0, 0.0, 0.0, 0.0), edgecolor="none",
+    price_color = colors.PATTERN_COLORS[pattern]
+    price_color = colors.color(*price_color, alpha=utils.chance_alpha(week.chance))
+    plot.fill_between(
+        PRICE_PERIODS_EXTENDED,
+        min_prices,
+        max_prices,
+        step="mid",
+        facecolor=price_color,
+        linewidth=0,
+        edgecolor="none",
     )
-
-    bar_color = colors.PATTERN_COLORS[pattern]
-    bar_color = colors.color(*bar_color, alpha=utils.chance_alpha(week.chance))
-    plot.bar(ind, max_prices, width, bottom=min_prices, color=bar_color)
 
 
 def _create_pattern_line(
@@ -224,6 +241,7 @@ def plot_price_periods(plot_prices: plt.Subplot, options: ForecastOptions,) -> N
 
     plot_prices.set_facecolor(options.bg_color)
     plot_prices.set_ylim(PRICE_Y_LIM)
+    plot_prices.set_xlim([-1, 12])
     plot_prices.axes.set_yticks(np.arange(0, 701, 100))
 
     plot_prices.grid(
@@ -237,7 +255,7 @@ def plot_price_periods(plot_prices: plt.Subplot, options: ForecastOptions,) -> N
     forecast = options.forecast
     for pattern in forecast.patterns:
         for week in pattern.potential_weeks:
-            _create_price_bars(plot_prices, week, pattern.pattern)
+            _create_week_area(plot_prices, week, pattern.pattern)
 
     big_pattern = utils.get_pattern(forecast, models.PricePatterns.BIGSPIKE)
     if big_pattern.chance > 0:

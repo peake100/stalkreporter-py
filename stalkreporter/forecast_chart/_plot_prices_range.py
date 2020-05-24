@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.lines as mlines
 from protogen.stalk_proto import models_pb2 as models
-from typing import List, Optional
+from typing import Optional
 
 from stalkreporter import colors
 from ._consts import (
@@ -31,7 +31,7 @@ def _create_price_watermark(
     else:
         pattern_color = colors.PATTERN_COLORS[pattern]
 
-    # Create a dotted line line at the breakeven point that matches the price
+    # Create a dotted line line at the break-even point that matches the price
     # progression
     price_line = mlines.Line2D(
         [0, 4], [price, price], color=pattern_color, linewidth=2, linestyle="--",
@@ -64,14 +64,10 @@ def plot_prices_range(
 
     bar_anchors = np.arange(4)
 
-    values: List[int] = list()
-
     for i, potential_pattern in enumerate(forecast.patterns):
         bar_position = bar_anchors[i]
 
         if len(potential_pattern.potential_weeks) == 0:
-            values.append(0)
-            values.append(0)
             continue
 
         min_price = potential_pattern.prices_future.min
