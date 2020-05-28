@@ -178,18 +178,6 @@
             <a href="#stalk_proto%2freporter.proto">stalk_proto/reporter.proto</a>
             <ul>
               
-                <li>
-                  <a href="#proto.ChartResp"><span class="badge">M</span>ChartResp</a>
-                </li>
-              
-                <li>
-                  <a href="#proto.ForecastChartReq"><span class="badge">M</span>ForecastChartReq</a>
-                </li>
-              
-              
-                <li>
-                  <a href="#proto.ImageFormat"><span class="badge">E</span>ImageFormat</a>
-                </li>
               
               
               
@@ -230,6 +218,14 @@
                 </li>
               
                 <li>
+                  <a href="#proto.ReqForecastChart"><span class="badge">M</span>ReqForecastChart</a>
+                </li>
+              
+                <li>
+                  <a href="#proto.RespChart"><span class="badge">M</span>RespChart</a>
+                </li>
+              
+                <li>
                   <a href="#proto.SpikeChances"><span class="badge">M</span>SpikeChances</a>
                 </li>
               
@@ -241,6 +237,10 @@
                   <a href="#proto.Ticker"><span class="badge">M</span>Ticker</a>
                 </li>
               
+              
+                <li>
+                  <a href="#proto.ImageFormat"><span class="badge">E</span>ImageFormat</a>
+                </li>
               
                 <li>
                   <a href="#proto.PricePatterns"><span class="badge">E</span>PricePatterns</a>
@@ -263,92 +263,7 @@
       <p></p>
 
       
-        <h3 id="proto.ChartResp">ChartResp</h3>
-        <p>Response message with a rendered svg chart.</p>
 
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>chart</td>
-                  <td><a href="#bytes">bytes</a></td>
-                  <td></td>
-                  <td><p>Binary image bytes for rendered chart. </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="proto.ForecastChartReq">ForecastChartReq</h3>
-        <p>Request message for creating a turnip forecast chart.</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>ticker</td>
-                  <td><a href="#proto.Ticker">Ticker</a></td>
-                  <td></td>
-                  <td><p>Price ticker of the current prices on the island. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>forecast</td>
-                  <td><a href="#proto.Forecast">Forecast</a></td>
-                  <td></td>
-                  <td><p>The forecast for future prices on the the island. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>format</td>
-                  <td><a href="#proto.ImageFormat">ImageFormat</a></td>
-                  <td></td>
-                  <td><p>desired image format </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-
-      
-        <h3 id="proto.ImageFormat">ImageFormat</h3>
-        <p></p>
-        <table class="enum-table">
-          <thead>
-            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
-          </thead>
-          <tbody>
-            
-              <tr>
-                <td>SVG</td>
-                <td>0</td>
-                <td><p></p></td>
-              </tr>
-            
-              <tr>
-                <td>PNG</td>
-                <td>1</td>
-                <td><p></p></td>
-              </tr>
-            
-          </tbody>
-        </table>
       
 
       
@@ -364,8 +279,8 @@
             
               <tr>
                 <td>ForecastChart</td>
-                <td><a href="#proto.ForecastChartReq">ForecastChartReq</a></td>
-                <td><a href="#proto.ChartResp">ChartResp</a></td>
+                <td><a href="#proto.ReqForecastChart">ReqForecastChart</a></td>
+                <td><a href="#proto.RespChart">RespChart</a></td>
                 <td><p>Takes a forecast and turns it into a pretty report</p></td>
               </tr>
             
@@ -392,7 +307,7 @@
               <tr>
                 <td>ForecastChart</td>
                 <td>POST</td>
-                <td>/charts/forecast</td>
+                <td>/api/charts/forecast</td>
                 <td>*</td>
               </tr>
               
@@ -701,6 +616,82 @@ we can say will happen with 100% certainty. </p></td>
 
         
       
+        <h3 id="proto.ReqForecastChart">ReqForecastChart</h3>
+        <p>Request message for creating a turnip forecast chart.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>ticker</td>
+                  <td><a href="#proto.Ticker">Ticker</a></td>
+                  <td></td>
+                  <td><p>Price ticker of the current prices on the island. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>forecast</td>
+                  <td><a href="#proto.Forecast">Forecast</a></td>
+                  <td></td>
+                  <td><p>The forecast for future prices on the the island. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>format</td>
+                  <td><a href="#proto.ImageFormat">ImageFormat</a></td>
+                  <td></td>
+                  <td><p>desired image format </p></td>
+                </tr>
+              
+                <tr>
+                  <td>color_background</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>hex value for the background color of the chart or empty for transparent </p></td>
+                </tr>
+              
+                <tr>
+                  <td>padding</td>
+                  <td><a href="#float">float</a></td>
+                  <td></td>
+                  <td><p>The amount of padding to surround the image with </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="proto.RespChart">RespChart</h3>
+        <p>Response message with a rendered svg chart.</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>chart</td>
+                  <td><a href="#bytes">bytes</a></td>
+                  <td></td>
+                  <td><p>Binary image bytes for rendered chart. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="proto.SpikeChances">SpikeChances</h3>
         <p>Spike info for the overall prediction.</p>
 
@@ -841,6 +832,29 @@ ticker with less than 12 values </p></td>
         
       
 
+      
+        <h3 id="proto.ImageFormat">ImageFormat</h3>
+        <p>Supported chart image formats</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>SVG</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>PNG</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+            
+          </tbody>
+        </table>
       
         <h3 id="proto.PricePatterns">PricePatterns</h3>
         <p>Enum of the price patterns that can occur in animal crossing.</p>

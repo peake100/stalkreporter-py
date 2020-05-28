@@ -163,7 +163,8 @@ def _create_weekday_grid(weekday_labels: plt.Subplot,) -> None:
 def _plot_current_prices(plot_prices: plt.Subplot, ticker: models.Ticker) -> int:
     current_period = -1
     prices: List[Optional[int]] = [None for _ in range(0, PRICE_PERIOD_COUNT + 2)]
-    prices[0] = ticker.purchase_price
+    if ticker.purchase_price != 0:
+        prices[0] = ticker.purchase_price
 
     for i in range(0, PRICE_PERIOD_COUNT):
         try:
@@ -189,27 +190,6 @@ def _plot_current_prices(plot_prices: plt.Subplot, ticker: models.Ticker) -> int
         color=colors.CURRENT_PRICE_COLOR,
     )
 
-    # Create a shaded region for the current period
-    rect = patches.Rectangle(
-        (current_period - 0.5, 0),
-        1,
-        701,
-        linewidth=0,
-        color=colors.CURRENT_PRICE_COLOR,
-        alpha=0.1,
-    )
-
-    # Add the patch to the Axes
-    plot_prices.add_patch(rect)
-
-    # Create a line at the head of the current price period
-    current_period_line = mlines.Line2D(
-        [current_period + 0.5, current_period + 0.5],
-        [0, 700],
-        color=colors.CURRENT_PRICE_COLOR,
-    )
-    plot_prices.add_line(current_period_line)
-
     # Annotate the prices
     for i, this_price in enumerate(ticker.prices):
         # Zero means unknown, skip it.
@@ -228,6 +208,29 @@ def _plot_current_prices(plot_prices: plt.Subplot, ticker: models.Ticker) -> int
         )
 
     return current_period
+
+
+def _add_cursor(plot_prices: plt.Subplot, current_period: int) -> None:
+    # Create a shaded region for the current period
+    rect = patches.Rectangle(
+        (current_period - 0.5, 0),
+        1,
+        701,
+        linewidth=0,
+        color=colors.CURRENT_PRICE_COLOR,
+        alpha=0.1,
+    )
+
+    # Add the patch to the Axes
+    plot_prices.add_patch(rect)
+
+    # Create a line at the head of the current price period
+    current_period_line = mlines.Line2D(
+        [current_period - 0.5, current_period - 0.5],
+        [0, 700],
+        color=colors.CURRENT_PRICE_COLOR,
+    )
+    plot_prices.add_line(current_period_line)
 
 
 def plot_price_periods(plot_prices: plt.Subplot, options: ForecastOptions,) -> None:
@@ -343,6 +346,8 @@ def plot_price_periods(plot_prices: plt.Subplot, options: ForecastOptions,) -> N
         current_tod_label = bottom_axis.xaxis.get_ticklabels()[current_period]
         current_tod_label.set_color("white")
         current_tod_label.set_bbox(bbox)
+
+    _add_cursor(plot_prices, current_period)
 
     all_spines = itertools.chain(
         plot_prices.spines.values(), weekday_labels.spines.values(),
