@@ -47,6 +47,12 @@ def _create_price_watermark(
         verticalalignment=vertical_alignment,
         color=pattern_color,
         fontsize=LABEL_SIZE,
+        bbox={
+            "boxstyle": "Circle,pad=0.6",
+            "facecolor": colors.color(0, 0, 0, alpha=0.1),
+            "edgecolor": "none",
+            "linewidth": 0,
+        },
     )
 
 
@@ -108,7 +114,10 @@ def plot_prices_range(
 
     # Create a dotted line line at the breakeven point that matches the price
     # progression
-    _create_price_watermark(plot, "break-even", break_even, va_top=False, pattern=None)
+    if break_even != 0:
+        _create_price_watermark(
+            plot, "break-even", break_even, va_top=False, pattern=None
+        )
 
     # Create a dotted line line at the max profit point
     _create_price_watermark(

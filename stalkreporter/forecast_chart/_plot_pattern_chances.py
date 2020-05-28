@@ -15,7 +15,12 @@ PATTERN_NAMES = {
 def plot_pattern_chances(plot: plt.Subplot, forecast: models.Forecast) -> None:
     total = 0.0
 
-    valid_patterns = (x for x in forecast.patterns if x.chance != 0)
+    valid_patterns = sorted(
+        (x for x in forecast.patterns if x.chance != 0),
+        key=lambda x: x.chance,
+        reverse=True,
+    )
+
     for i, potential_pattern in enumerate(valid_patterns):
         if i > 0:
             # Add a little bit of space between sections

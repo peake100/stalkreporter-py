@@ -2,16 +2,15 @@ import configparser
 import pathlib
 import subprocess
 
+from stalkreporter import __version__
+
 root_dir = pathlib.Path(__file__).parent.parent.parent
 config_path = root_dir / "setup.cfg"
 config = configparser.ConfigParser()
 config.read(str(config_path))
 
-__version__ = config.get("version", "release")
-if not __version__:
-    __version__ = config.get("version", "target")
 
-# generate the protoc html docs
+# gerate the protoc html docs
 proc = subprocess.Popen(
     [
         "protoc",
@@ -26,6 +25,7 @@ _, _ = proc.communicate(timeout=30)
 if proc.returncode != 0:
     print(root_dir)
     raise RuntimeError("error generating protoc doc html")
+
 
 # -*- coding: utf-8 -*-
 #
