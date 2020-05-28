@@ -48,8 +48,8 @@ def _create_price_watermark(
         color=pattern_color,
         fontsize=LABEL_SIZE,
         bbox={
-            "boxstyle": "Circle,pad=0.6",
-            "facecolor": colors.color(0, 0, 0, alpha=0.1),
+            "boxstyle": "Square,pad=0.3",
+            "facecolor": colors.color(0, 0, 0, alpha=0.08),
             "edgecolor": "none",
             "linewidth": 0,
         },
